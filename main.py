@@ -28,3 +28,5 @@ G = nx.from_numpy_array(edges)
 nx.draw(G, with_labels=False, font_weight='bold', node_size=5, pos=positions)
 
 plt.show()
+
+nnwi.train_model(edges)
