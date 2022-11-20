@@ -1,8 +1,8 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy as sp
 import nn_without_image as nnwi
+import graphs as gp
 
 adj = []
 for i in range(0,100):
@@ -17,16 +17,13 @@ for i in range(0, 100):
             adj[i][j] = 1
             adj[j][i] = 1
 
-edges = np.array(adj)
+adj_mat = np.array(adj)
+print(adj_mat)
+
 positions = {0: [0, 0]}
 for i in range(1, 100):
     positions[i] = [i % 10, int((i - i % 10)/10)]
-print(positions)
 
-plt.figure(3,figsize=(1,1), dpi = 70)
-G = nx.from_numpy_array(edges)
-nx.draw(G, with_labels=False, font_weight='bold', node_size=5, pos=positions)
+gp.graph(adj_mat, positions, gp.rand_nodes())
 
-plt.show()
-
-nnwi.train_model(edges)
+nnwi.train_model(adj_mat)
