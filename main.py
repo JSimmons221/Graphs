@@ -1,16 +1,17 @@
-# This is a sample Python script.
+import networkx as nx
+import matplotlib.pyplot as plt
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+row = [0] * 100
+adj = [row] * 100
 
+for i in range(0, 100):
+    for j in range(i, 100):
+        if j == i + 1 or j == i + 10:
+            adj[i][j] = 1
+            adj[j][i] = 1
+        else:
+            adj[i][j] = 0
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+print(adj[0][1])
+for i in adj:
+    print(i)
