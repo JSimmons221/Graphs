@@ -1,6 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-
+import nn_without_image as nnwi
 adj = []
 for i in range(0,100):
     adj.append([0] * 100)
