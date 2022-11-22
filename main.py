@@ -18,12 +18,10 @@ for i in range(0, 100):
             adj[j][i] = 1
 
 adj_mat = np.array(adj)
-print(adj_mat)
 
 positions = {0: [0, 0]}
 for i in range(1, 100):
     positions[i] = [i % 10, int((i - i % 10)/10)]
 
-gp.graph(adj_mat, positions, gp.rand_nodes())
-
-nnwi.train_model(adj_mat)
+gp.make_data(1000, r'Graph.csv')
+#nnwi.train_model(adj_mat)
