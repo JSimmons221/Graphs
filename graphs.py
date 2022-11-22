@@ -19,12 +19,12 @@ def dist(n1, n2):
     return abs(n2i - n1i) + abs(n2j - n2j)
 
 
-def graph(adj_mat, positions, nodes):
+def graph(adj_mat, positions, nodes, path):
     plt.figure(3,figsize=(1,1), dpi=70)
     G = nx.from_numpy_array(adj_mat)
     colors = color_list(nodes)
     nx.draw(G, with_labels=False, font_weight='bold', node_size=5, pos=positions, node_color=colors)
-    plt.show()
+
 
 
 def third_node(node_1, node_2, r):
@@ -57,9 +57,12 @@ def third_node(node_1, node_2, r):
 
 def rand_nodes():
     node_1 = rand.randint(1, 98)
+    while node_1 == 9 or node_1 == 90:
+        node_1 = rand.randint(1, 98)
+
 
     node_2 = rand.randint(1, 98)
-    while node_2 == node_1 or dist(node_1, node_2) < 2:
+    while node_2 == node_1 or dist(node_1, node_2) < 2 or node_2 == 9 or node_2 == 90:
         node_2 = rand.randint(1, 98)
 
     r = rand.randint(0, 1)
@@ -70,6 +73,7 @@ def rand_nodes():
     n2i, n2j = coord(node_2)
     n3i, n3j = coord(node_3)
     return [n1i, n1j, n2i, n2j, n3i, n3j, r]
+
 
 def color_list(nodes):
     colors = []
@@ -95,5 +99,11 @@ def make_data(n, path):
         # write the labels for the columns
         writer.writerow(['Polygon 1', 'Polygon 2', 'Congruent'])
         # make data and add to csv
+        c = 0
         for i in range(n):
+            print(c)
             writer.writerow(rand_nodes())
+            c += 1
+
+
+# def make_images(path, adj_mat, positions, nodes):
