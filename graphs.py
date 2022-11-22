@@ -97,7 +97,7 @@ def make_data(n, path):
     with open(path, 'w+', newline='', encoding='UTF8') as f:
         writer = csv.writer(f)
         # write the labels for the columns
-        writer.writerow(['Polygon 1', 'Polygon 2', 'Congruent'])
+        writer.writerow(['start-x', 'start-y', 'end-x', 'end-y', 'query-x', 'query-y', 'shortest-path'])
         # make data and add to csv
         c = 0
         for i in range(n):

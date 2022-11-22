@@ -1,5 +1,6 @@
 import statistics
 
+import math
 import pandas as pd
 import numpy as np
 import statsmodels.api as sm
@@ -14,29 +15,29 @@ def train_model(adjmat):
     data = pd.read_csv("Graph.csv")
 
     adjmat = adjmat.flatten()
-    adjmatmat = [np.empty(len(data.index))]
+    adjmatmat = np.array([[0] * len(adjmat)] * len(data.index))
     for i in range(len(data.index)):
         adjmatmat[i] = adjmat
 
-    data['adjmat'] = adjmatmat
-    train_data, test_data = train_test_split(data, test_size=0.5, shuffle=True)
+    data = adjmatmat = pd.concat([data, pd.DataFrame(adjmatmat)], axis=1)
+    train_data, test_data = train_test_split(data, test_size=0.2, shuffle=True)
 
-    X = train_data[['adjmat','start-x', 'start-y', 'end-x', 'end-y', 'query-x', 'query-y']]
+    X = train_data.drop(['shortest-path'], axis=1)
     y = train_data[['shortest-path']]
 
-    X_test = test_data[['adjmat','start-x', 'start-y', 'end-x', 'end-y', 'query-x', 'query-y']]
+    X_test = test_data.drop(['shortest-path'], axis=1)
     y_test = test_data[["shortest-path"]]
-
-
-
-    knn = KNeighborsClassifier(n_neighbors=3)
-    knn.fit(X, y)
-
-    p_pred = knn.predict(X_test)
-    y_pred = np.where(p_pred > 0.5, 1, 0)
-    cm = metrics.confusion_matrix(y_test, y_pred)
-    cm_display = metrics.ConfusionMatrixDisplay(confusion_matrix=cm,
-                                                display_labels=['Below median crime', 'Above median crime'])
-
-    cm_display.plot()
+    error_rate = []
+    for i in range(1,math.floor(len(X.index)/5)-1):
+        knn = KNeighborsClassifier(n_neighbors=i*5)
+        knn.fit(X, y)
+        y_pred = knn.predict(X_test)
+        y_pred = y_pred.reshape(len(y_pred),1)
+        error_rate.append(np.mean(y_pred != y_test))
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(1, len(error_rate)+1), error_rate, color='blue', linestyle='dashed', marker='o',
+             markerfacecolor='red', markersize=10)
+    plt.title('Error Rate vs. K Value')
+    plt.xlabel('K')
+    plt.ylabel('Error Rate')
     plt.show()
