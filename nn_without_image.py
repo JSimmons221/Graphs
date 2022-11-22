@@ -28,7 +28,7 @@ def train_model(adjmat):
     X_test = test_data.drop(['shortest-path'], axis=1)
     y_test = test_data[["shortest-path"]]
     error_rate = []
-    for i in range(1,math.floor(len(X.index)/2)-1):
+    for i in range(1,math.floor(len(X.index)/2/10)-1):
         print(i)
         knn = KNeighborsClassifier(n_neighbors=i*10)
         knn.fit(X, y)
