@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import metrics
-
+%matplotlib inline
 
 def train_model(adjmat):
     data = pd.read_csv("Graph.csv")
