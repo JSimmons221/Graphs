@@ -33,8 +33,10 @@ def train_model(adjmat):
 
     model = keras.Sequential()
     model.add(layers.Dense(10006*2, activation='relu', input_dim=10006))
+    model.add(layers.Dense(10006*2, activation='relu'))
     model.add(layers.Dense(10006*1, activation='relu'))
-    model.add(layers.Dense(10006*1, activation='relu'))
+    model.add(layers.Dense(10006 * 1, activation='relu'))
+    model.add(layers.Dense(10006 * 1, activation='relu'))
     model.add(layers.Dense(10006*1, activation='sigmoid'))
 
     # Compile the model
