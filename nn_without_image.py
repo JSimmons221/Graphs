@@ -32,10 +32,10 @@ def train_model(adjmat):
     y_test = test_data[["shortest-path"]]
 
     model = keras.Sequential()
-    model.add(layers.Dense(500, activation='relu', input_dim=10006))
-    model.add(layers.Dense(100, activation='relu'))
-    model.add(layers.Dense(50, activation='relu'))
-    model.add(layers.Dense(2, activation='sigmoid'))
+    model.add(layers.Dense(256, activation='relu', input_dim=10006))
+    model.add(layers.Dense(256, activation='relu'))
+    model.add(layers.Dense(1024, activation='relu'))
+    model.add(layers.Dense(1024, activation='sigmoid'))
 
     # Compile the model
     model.compile(optimizer='adam',
