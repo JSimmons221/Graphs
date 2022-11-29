@@ -27,17 +27,11 @@ def train_model(adjmat):
     X_test = test_data.drop(['shortest-path'], axis=1)
     y_test = test_data[["shortest-path"]]
     error_rate = []
-    for i in range(1,math.floor(len(X.index)/2/10)-1):
+    for i in range(1,50):
         print(i)
-        knn = KNeighborsClassifier(n_neighbors=i*10)
+        knn = KNeighborsClassifier(n_neighbors=i*4)
         knn.fit(X, y)
         y_pred = knn.predict(X_test)
         y_pred = y_pred.reshape(len(y_pred),1)
         error_rate.append(np.mean(y_pred != y_test))
-    plt.figure(figsize=(10, 6))
-    plt.plot(range(1, len(error_rate)+1), error_rate, color='blue', linestyle='dashed', marker='o',
-             markerfacecolor='red', markersize=10)
-    plt.title('Error Rate vs. K Value')
-    plt.xlabel('K')
-    plt.ylabel('Error Rate')
-    plt.show()
+    print(error_rate)
