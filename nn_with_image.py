@@ -30,7 +30,7 @@ def train_model(adjmat):
     i = 0
     for row in data.iterrows():
         i += 1
-        image = cv.imread(r'Images\graph%i.jpg' % i)
+        image = cv.imread(r'Images/graph%i.jpg' % i)
         image_arrays.append(image)
     image_arrays = np.array(image_arrays)
     image_arrays = image_arrays / 255.0
