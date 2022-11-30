@@ -2,6 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 import nn_without_image as nnwi
+import nn_with_image as nni
 import graphs as gp
 
 adj = []
@@ -23,5 +24,7 @@ positions = {0: [0, 0]}
 for i in range(1, 100):
     positions[i] = [i % 10, int((i - i % 10)/10)]
 
-gp.make_data(10000, r'Graph.csv')
+gp.make_data(100, r'Graph.csv')
+nni.train_model(adj_mat)
 nnwi.train_model(adj_mat)
+
