@@ -32,8 +32,8 @@ def train_model(adjmat):
     y_test = test_data[["shortest-path"]]
 
     model = keras.Sequential()
-    model.add(layers.Dense(10006*2, activation='relu', input_dim=10006))
-    model.add(layers.Dense(10006*2, activation='relu'))
+    model.add(layers.Dense(10006*1, activation='relu', input_dim=10006))
+    model.add(layers.Dense(10006*1, activation='relu'))
     model.add(layers.Dense(10006*1, activation='relu'))
     model.add(layers.Dense(10006 * 1, activation='relu'))
     model.add(layers.Dense(10006 * 1, activation='relu'))
