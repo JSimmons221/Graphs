@@ -82,8 +82,8 @@ def train_model(adjmat):
 
     merge_layer = layers.concatenate([pretrained_model.output, non_image_layer])
     merged_model = Model(inputs=[image_input, non_image_input], outputs=merge_layer)
-    merged_model.add(layers.Dense(10006 * 1, activation='relu'))
-    merged_model.add(layers.Dense(10006 * 1, activation='softmax'))
+    merged_model = layers.Dense(10006 * 1, activation='relu')(merged_model)
+    merged_model = layers.Dense(10006 * 1, activation='softmax')(merged_model)
 
     merged_model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy',
