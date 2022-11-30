@@ -24,7 +24,6 @@ positions = {0: [0, 0]}
 for i in range(1, 100):
     positions[i] = [i % 10, int((i - i % 10)/10)]
 
-gp.make_data(100, r'Graph.csv')
 nni.train_model(adj_mat)
 nnwi.train_model(adj_mat)
 
