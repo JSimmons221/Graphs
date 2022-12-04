@@ -67,12 +67,8 @@ def train_model(adjmat):
     #
     # resnet_model.fit(train_images, y, validation_data=(test_images, y_test), epochs=50)
 
-    non_image_layer = layers.Dense(10006 * 1, activation='relu')(non_image_input)
-    non_image_layer = layers.Dense(10006 * 1, activation='relu')(non_image_layer)
-    non_image_layer = layers.Dense(10006 * 1, activation='relu')(non_image_layer)
-    non_image_layer = layers.Dense(10006 * 1, activation='relu')(non_image_layer)
-    non_image_layer = layers.Dense(10006 * 1, activation='relu')(non_image_layer)
-    non_image_layer = layers.Dense(10006 * 1, activation='softmax')(non_image_layer)
+    non_image_layer = layers.Dense(256 * 1, activation='relu')(non_image_input)
+    non_image_layer = layers.Dense(256 * 1, activation='softmax')(non_image_layer)
 
     # Compile the model
     # model.compile(optimizer='adam',
@@ -81,6 +77,7 @@ def train_model(adjmat):
     # model.fit(X, y, epochs=50, validation_data=(X_test, y_test))]
 
     merge_layer = layers.concatenate([pretrained_model.output, non_image_layer])
+    merge_layer = layers.Dense(256 * 1, activation='softmax')(merge_layer)
     merged_model = Model(inputs=[image_input, non_image_input], outputs=merge_layer)
 
     merged_model.compile(optimizer='adam',
