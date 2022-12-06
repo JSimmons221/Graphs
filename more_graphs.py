@@ -134,13 +134,13 @@ def convert_to_coords(node, size):
 
 def make_data(n, path, size):
     rand.seed()
+    g, e_array = make_graph(size)
     with open(path, 'w+', newline='', encoding='UTF8') as f:
         writer = csv.writer(f)
         # write the labels for the columns
         writer.writerow(['adj_mat', 'sx', 'sy', 'mx', 'my', 'ex', 'ey', 'on_path'])
         # make data and add to csv
         for i in range(n):
-            g, e_array = make_graph(size)
             start, mid, end, on_path = rand_nodes(g, size)
             sx, sy = convert_to_coords(start, size)
             mx, my = convert_to_coords(mid, size)
