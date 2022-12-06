@@ -150,4 +150,4 @@ def make_data(n, path, size):
             writer.writerow(row)
 
 
-make_data(10000, r'Graph.csv', 5)
+make_data(50000, r'Graph.csv', 5)

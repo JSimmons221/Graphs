@@ -57,4 +57,4 @@ def train_model(size):
     model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
-    model.fit(X, y, epochs=50, validation_data=(X_test, y_test))
+    model.fit(X, y, epochs=100, validation_data=(X_test, y_test))
