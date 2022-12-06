@@ -3,6 +3,8 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 import random as rand
+import os
+import glob
 
 
 def coord(n):
@@ -19,11 +21,9 @@ def dist(n1, n2):
     return abs(n2i - n1i) + abs(n2j - n2j)
 
 
-def graph(adj_mat, positions, nodes, path):
-    plt.figure(3,figsize=(1,1), dpi=70)
-    G = nx.from_numpy_array(adj_mat)
-    colors = color_list(nodes)
+def graph(G, positions, colors, path):
     nx.draw(G, with_labels=False, font_weight='bold', node_size=5, pos=positions, node_color=colors)
+    plt.savefig(path)
 
 
 
@@ -75,17 +75,18 @@ def rand_nodes():
     return [n1i, n1j, n2i, n2j, n3i, n3j, r]
 
 
-def color_list(nodes):
-    colors = []
-    for i in range(0, 100):
-        if i == nodes[0] or i == nodes[1]:
-            colors.append('green')
-        elif i == nodes[2]:
-            colors.append('red')
-        else:
-            colors.append('blue')
+def color_list(colors, nodes):
+    colors[nodes[0]] = 'green'
+    colors[nodes[1]] = 'green'
+    colors[nodes[2]] = 'red'
 
-    print(len(colors))
+    return colors
+
+
+def color_list_undo(colors, nodes):
+    colors[nodes[0]] = 'blue'
+    colors[nodes[1]] = 'blue'
+    colors[nodes[2]] = 'blue'
 
     return colors
 
@@ -101,9 +102,47 @@ def make_data(n, path):
         # make data and add to csv
         c = 0
         for i in range(n):
-            print(c)
             writer.writerow(rand_nodes())
             c += 1
 
 
-# def make_images(path, adj_mat, positions, nodes):
+
+# clears all images from the images folder, used to keep things tidy
+def clear_images():
+    path = r'Resources/Images/*.jpg'
+    files = glob.glob(path)
+    for f in files:
+        os.remove(f)
+
+
+def start_end_mid(row):
+    si = int(row[0])
+    sj = int(row[1])
+    ei = int(row[2])
+    ej = int(row[3])
+    mi = int(row[4])
+    mj = int(row[5])
+    s = node(si, sj)
+    e = node(ei, ej)
+    m = node(mi, mj)
+    return [s, e, m]
+
+
+def csv_to_images(path, adj_mat, positions):
+    colors = []
+    for i in range(0, 100):
+        colors.append('blue')
+    G = nx.grid_graph([10, 10])
+    plt.figure(3, figsize=(1, 1), dpi=70)
+
+    with open(path) as file:
+        clear_images()
+        reader = csv.reader(file, delimiter=',')
+        c = 0
+        for row in reader:
+            if c != 0:
+                nodes = start_end_mid(row)
+                colors = color_list(colors, nodes)
+                graph(G, positions, colors, r'Resources/images/graph%i.jpg' % c)
+                colors = color_list_undo(colors, nodes)
+            c += 1
