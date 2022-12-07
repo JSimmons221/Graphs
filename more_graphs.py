@@ -58,6 +58,14 @@ def get_adj(size):
     return np.array(adj_mat)
 
 
+def view_adj(size):
+    adj = get_adj(size)
+    print(size)
+    for i in adj:
+        print(i)
+    print()
+
+
 def get_positions(size):
     pos = {0: [0, 0]}
     for i in range(1, size ** 2):
@@ -86,10 +94,9 @@ def shortest_path_nodes(g, source, end):
     nodes = []
     paths = shortest_paths(g, source, end)
     for i in paths:
-        nodes.extend(i)
+        nodes.extend(i[1:len(i)-1])
 
-    l = list(set(nodes))
-    return l[1:len(l)-1]
+    return list(set(nodes))
 
 
 # on_path is for testing purposes
@@ -119,17 +126,23 @@ def rand_nodes(g, size):
     return start, mid, end, on_path
 
 
-def draw_graph_no_save(g):
-    positions = get_positions(len(list(g.nodes)))
-    nx.draw(g, with_labels=False, node_size=5, pos=positions)
+def draw_graph_no_save(g, size):
+    positions = get_positions(size)
+    colors = base_colors(size)
+    plt.figure(3, figsize=(1, 1), dpi=70)
+    nx.draw(g, with_labels=False, node_size=10, pos=positions, node_color=colors)
     plt.show()
     plt.clf()
 
 
-def convert_to_coords(node, size):
+def node_to_coords(node, size):
     node_x = node % size
     node_y = int((node - node % size)/size)
     return node_x, node_y
+
+
+def coords_to_node(node_x, node_y, size):
+    return node_y * size + node_x
 
 
 def make_data(n, path, size):
@@ -142,9 +155,9 @@ def make_data(n, path, size):
         # make data and add to csv
         for i in range(n):
             start, mid, end, on_path = rand_nodes(g, size)
-            sx, sy = convert_to_coords(start, size)
-            mx, my = convert_to_coords(mid, size)
-            ex, ey = convert_to_coords(end, size)
+            sx, sy = node_to_coords(start, size)
+            mx, my = node_to_coords(mid, size)
+            ex, ey = node_to_coords(end, size)
 
             row = [e_array, sx, sy, mx, my, ex, ey, on_path]
             writer.writerow(row)
