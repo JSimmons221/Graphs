@@ -51,7 +51,8 @@ def train_model(size):
 
     model = keras.Sequential()
     model.add(layers.Dense(256 * 1, activation='relu', input_dim=6 + 2 * size * (size - 1)))
-    model.add(layers.Dense(256*1, activation='softmax'))
+    model.add(layers.Dense(256 * 1, activation='relu'))
+    model.add(layers.Dense(1, activation='softmax'))
 
     # Compile the model
     model.compile(optimizer='adam',
