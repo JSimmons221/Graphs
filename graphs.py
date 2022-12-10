@@ -28,7 +28,6 @@ def graph(G, positions, colors, path):
 
 
 def third_node(node_1, node_2, r):
-    node_3 = 0
     node_1i, node_1j = coord(node_1)
     node_2i, node_2j = coord(node_2)
     i_min = min(node_1i, node_2i)

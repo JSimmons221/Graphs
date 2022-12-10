@@ -1,4 +1,7 @@
+import ast
 import csv
+import glob
+import os
 
 import networkx as nx
 import numpy as np
@@ -126,11 +129,10 @@ def rand_nodes(g, size):
     return start, mid, end, on_path
 
 
-def draw_graph_no_save(g, size):
+def draw_graph_no_save(g, size, colors):
     positions = get_positions(size)
-    colors = base_colors(size)
     plt.figure(3, figsize=(1, 1), dpi=70)
-    nx.draw(g, with_labels=False, node_size=10, pos=positions, node_color=colors)
+    nx.draw(g, with_labels=True, node_size=10, pos=positions, node_color=colors)
     plt.show()
     plt.clf()
 
@@ -147,13 +149,13 @@ def coords_to_node(node_x, node_y, size):
 
 def make_data(n, path, size):
     rand.seed()
-    g, e_array = make_graph(size)
     with open(path, 'w+', newline='', encoding='UTF8') as f:
         writer = csv.writer(f)
         # write the labels for the columns
         writer.writerow(['adj_mat', 'sx', 'sy', 'mx', 'my', 'ex', 'ey', 'on_path'])
         # make data and add to csv
         for i in range(n):
+            g, e_array = make_graph(size)
             start, mid, end, on_path = rand_nodes(g, size)
             sx, sy = node_to_coords(start, size)
             mx, my = node_to_coords(mid, size)
@@ -163,4 +165,74 @@ def make_data(n, path, size):
             writer.writerow(row)
 
 
+def clear_images():
+    path = r'Resources/Images/*.jpg'
+    files = glob.glob(path)
+    for f in files:
+        os.remove(f)
+
+
+def list_nodes_to_graph(edge_list, all_edges):
+    ret_edges = []
+    for i in range(0, len(edge_list)):
+        if edge_list[i]:
+            ret_edges.append(all_edges[i])
+
+    G = nx.Graph(ret_edges)
+
+    return G
+
+def change_colors(colors, nodes, size):
+    colors[coords_to_node(nodes[0], nodes[1], size)] = 'green'
+    colors[coords_to_node(nodes[2], nodes[3], size)] = 'red'
+    colors[coords_to_node(nodes[4], nodes[5], size)] = 'green'
+    print(colors)
+    return colors
+
+
+def undo_colors(colors, nodes, size):
+    colors[nodes[0] + nodes[1] * size] = 'blue'
+    colors[nodes[2] + nodes[3] * size] = 'blue'
+    colors[nodes[4] + nodes[5] * size] = 'blue'
+    return colors
+
+
+def graph(G, positions, colors, path):
+    nx.draw(G, with_labels=True, font_weight='bold', node_size=5, pos=positions, node_color=colors)
+    plt.savefig(path)
+    plt.clf()
+
+
+def csv_to_images(path, size):
+    colors = base_colors(size)
+    g = (nx.Graph(get_adj(size)))
+    positions = get_positions(5)
+    all_edges = list(g.edges)
+    plt.figure(3, figsize=(1, 1), dpi=100)
+
+    with open(path) as file:
+        clear_images()
+        reader = csv.reader(file, delimiter=',')
+        c = 0
+        for row in reader:
+            if c == 1:
+                if c % 100 == 0:
+                    print(c)
+                edge_list = list(ast.literal_eval(row[0]))
+                g = list_nodes_to_graph(edge_list, all_edges)
+                nodes = []
+                for i in range(1, 7):
+                    nodes.append(int(row[i]))
+                print(nodes)
+                colors = change_colors(colors, nodes, size)
+                for i in range(0, len(colors)):
+                    print(i)
+                    print(colors[i])
+                graph(g, positions, colors, r'Resources/images/graph%i.jpg' % c)
+                draw_graph_no_save(g, size, colors)
+                colors = undo_colors(colors, nodes, size)
+            c += 1
+
+
 make_data(10000, r'Graph.csv', 5)
+csv_to_images(r'Graph.csv', 5)
