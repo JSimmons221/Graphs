@@ -108,7 +108,7 @@ def make_data(n, path):
 
 # clears all images from the images folder, used to keep things tidy
 def clear_images():
-    path = r'Resources/Images/*.jpg'
+    path = r'Resources/images/*.jpg'
     files = glob.glob(path)
     for f in files:
         os.remove(f)

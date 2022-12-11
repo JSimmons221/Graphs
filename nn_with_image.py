@@ -71,7 +71,7 @@ def train_model(size):
                                 weights='imagenet')
 
     non_image_layer = layers.Dense(256 * 1, activation='relu')(non_image_input)
-    non_image_layer = layers.Dense(256 * 1, activation='softmax')(non_image_layer)
+    non_image_layer = layers.Dense(128 * 1, activation='softmax')(non_image_layer)
 
     merge_layer = layers.concatenate([pretrained_model.output, non_image_layer])
     merge_layer = layers.Dense(256 * 1, activation='softmax')(merge_layer)

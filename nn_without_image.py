@@ -50,8 +50,8 @@ def train_model(size):
     y_test = np.asarray(y_test).astype(np.float32)
 
     model = keras.Sequential()
-    model.add(layers.Dense(128 * 1, activation='relu', input_dim=6 + 2 * size * (size - 1)))
-    model.add(layers.Dense(256 * 1, activation='softmax'))
+    model.add(layers.Dense(256 * 1, activation='relu', input_dim=6 + 2 * size * (size - 1)))
+    model.add(layers.Dense(128 * 1, activation='softmax'))
 
     # Compile the model
     model.compile(optimizer='adam',
