@@ -74,7 +74,7 @@ def train_model(size):
     non_image_layer = layers.Dense(256 * 1, activation='softmax')(non_image_layer)
 
     merge_layer = layers.concatenate([pretrained_model.output, non_image_layer])
-    merge_layer = layers.Dense(128 * 1, activation='softmax')(merge_layer)
+    merge_layer = layers.Dense(256 * 1, activation='softmax')(merge_layer)
     merged_model = Model(inputs=[image_input, non_image_input], outputs=merge_layer)
 
     merged_model.compile(optimizer='adam',
