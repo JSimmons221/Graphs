@@ -62,7 +62,7 @@ def train_model(size):
     y_test = np.asarray(y_test).astype(np.float32)
 
     image_input = layers.Input(shape=(50, 50, 3), name='image_input')
-    non_image_input = layers.Input(shape=(46,), name='non_image_input')
+    non_image_input = layers.Input(shape=(6 + 2 * size * (size - 1)), name='non_image_input')
 
     pretrained_model = ResNet50(include_top=False,
                                 input_tensor=image_input,
