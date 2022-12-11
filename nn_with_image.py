@@ -43,6 +43,7 @@ def train_model(size):
     image_arrays = []
     i = 0
     for row in data.iterrows():
+        print(i)
         i += 1
         image = cv.imread(r'Resources/images/graph%i.jpg' % i)
         image_arrays.append(image)
