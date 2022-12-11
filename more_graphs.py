@@ -111,6 +111,8 @@ def node_selection(g, source, end, on_path=-1):
         node = rand.choice(sp_nodes)
     else:
         nodes = list(g.nodes)
+        nodes.append(source)
+        nodes.append(end)
         not_sp_nodes = list(set(nodes) - set(sp_nodes))
         node = rand.choice(not_sp_nodes)
 
@@ -234,5 +236,5 @@ def csv_to_images(path, size):
             c += 1
 
 
-make_data(1, r'Graph.csv', 5)
+make_data(10000, r'Graph.csv', 5)
 csv_to_images(r'Graph.csv', 5)
