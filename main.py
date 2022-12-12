@@ -8,8 +8,6 @@ import more_graphs as mg
 
 n = 5
 
-mg.make_data(25000, r'Graph.csv', 5)
-mg.csv_to_images(r'Graph.csv', 5)
 nnwi.train_model(n)
 nni.train_model(n)
 
