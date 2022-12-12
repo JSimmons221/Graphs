@@ -238,5 +238,4 @@ def csv_to_images(path, size):
             c += 1
 
 
-make_data(50000, r'Graph.csv', 5)
-csv_to_images(r'Graph.csv', 5)
+
