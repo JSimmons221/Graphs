@@ -127,6 +127,8 @@ def rand_nodes(g, size):
         end = rand.randint(0, size ** 2 - 1)
 
     mid, on_path = node_selection(g, start, end)
+    while mid == start or mid == end:
+        mid, on_path = node_selection(g, start, end)
 
     return start, mid, end, on_path
 
@@ -236,5 +238,5 @@ def csv_to_images(path, size):
             c += 1
 
 
-# make_data(10000, r'Graph.csv', 5)
+make_data(10000, r'Graph.csv', 5)
 # csv_to_images(r'Graph.csv', 5)
