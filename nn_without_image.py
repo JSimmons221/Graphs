@@ -10,7 +10,9 @@ from matplotlib import pyplot as plt
 from sklearn.model_selection import train_test_split
 from tensorflow import keras
 from tensorflow.keras import layers
-from sklearn import metrics
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import metrics, svm
 
 
 def train_model(size):
@@ -50,12 +52,29 @@ def train_model(size):
     y_test = np.asarray(y_test).astype(np.float32)
 
     model = keras.Sequential()
-    model.add(layers.Dense(32 * 1, activation='relu', input_dim=6 + 2 * size * (size - 1)))
-    model.add(layers.Dense(32 * 1, activation='softmax'))
+    model.add(layers.Dense(64, activation='relu', input_dim=6 + 2 * size * (size - 1)))
+    model.add(layers.Dense(2, activation='softmax'))
 
     # Compile the model
     model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
     model.fit(X, y, epochs=100, validation_data=(X_test, y_test))
+
+    # Using knn to classify non-image data
+    knn = KNeighborsClassifier(n_neighbors=40)
+
+    knn.fit(X, y)
+
+    print("Score for knn model with k =40: " + str(knn.score(X_test, y_test)))
+
+    clf = DecisionTreeClassifier(random_state=0)
+    clf.fit(X,y)
+    print("Score for decision tree model: " + str(clf.score(X_test, y_test)))
+
+    clf = svm.SVC(kernel='poly')
+    clf.fit(X, y)
+    print("Score for svm model with poly kernal: " + str(clf.score(X_test, y_test)))
+
+
 
